@@ -1,0 +1,39 @@
+{{template "base" .}}
+
+{{/* Home page-specific meta data */}}
+{{define "title"}}Home{{end}}
+{{define "description"}}Manage your todos{{end}}
+{{define "robots"}}index, follow{{end}}
+
+{{/* Home page content */}}
+{{define "content"}}
+<section class="content">
+    <p class="content__introduction">Simple todo app to make sure you’re always on</p>
+
+
+    {{if not .IsAuthorized}}
+    {{/*
+        Call to action button for signing up or loggin in,
+        it will be rendered only for a not logged in user
+    */}}
+    <div class="cta-container">
+        <a href="/register" class="cta__button cta__button--green">Sign up</a>
+        <span class="cta__or-text">Or</span>
+        <a href="/login" class="cta__button cta__button--white-ish">Login</a>
+    </div>
+    {{else}}
+    {{/* Actions box, only for logged-in user */}}
+    <div class="actions-box">
+        <h2 class="actions-box__title">Let's Go JohnDoe123</h2>
+        <a href="/todos" class="actions-box__button" aria-label="Go to todos manager page">
+            <img
+                class="actions-box__icon"
+                src="/icons/plus.svg"
+                alt="Add icon"
+                aria-hidden="true"
+            />
+        </a>
+    </div>
+    {{end}}
+</section>
+{{end}}
