@@ -2,3 +2,6 @@
 design/
 .env
 
+# TLS certificate and private key generated with Go
+/tls
+
