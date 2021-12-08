@@ -11,7 +11,7 @@
     <p class="content__introduction">Simple todo app to make sure you’re always on</p>
 
 
-    {{if not .IsAuthorized}}
+    {{if not .IsAuthenticated}}
     {{/*
         Call to action button for signing up or loggin in,
         it will be rendered only for a not logged in user
