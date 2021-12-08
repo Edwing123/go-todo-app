@@ -5,6 +5,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="author" content="Edwin Evenor Garcia Valle - Edwing123" />
+        <meta name="theme-color" content="#1D1B1B" />
 
         {{/* Shared resources */}}
         <link rel="stylesheet" href="/css/shared.css" />
@@ -16,9 +17,9 @@
         />
 
         {{/* Page specific attributes */}}
-        {{block "title" .}}{{end}}
-        {{block "description" .}}{{end}}
-        {{block "robots"}}{{end}}
+        <title>TodoApp | {{block "title" .}}{{end}}</title>
+        <meta name="description" content="{{block "description" .}}{{end}}" />
+        <meta name="robots" content="{{block "robots" .}}{{end}}" />
     </head>
     <body>
         <div class="container">
