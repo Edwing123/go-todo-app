@@ -1,0 +1,21 @@
+:root {
+    --blue: #482FF7;
+
+    --purple: #685AAE;
+    --purple-100: #2E1D57;
+
+    --green: #17B978;
+
+    --red: #FE5F55;
+    --red-600: #E77C7C;
+
+    --black: #1D1B1B;
+    --black-900: hsla(0, 4%, 11%, 0.24);
+
+    --white-1: hsla(0, 0, 100%, 0.80);
+    --semi-transparent-white-1: hsla(0, 0, 100%, 0.24);
+    --semi-transparent-white-2: hsla(0, 0, 89%, 0.24);
+
+    /* combinations */
+    --body-gradient: linear-gradient(to bottom --var(--blue), --var(--dark-purple));
+}
