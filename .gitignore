@@ -5,3 +5,5 @@ design/
 # TLS certificate and private key generated with Go
 /tls
 
+# Development bash scripts
+*.sh
