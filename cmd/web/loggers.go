@@ -7,5 +7,5 @@ import (
 
 var (
 	infoLogger = log.New(os.Stdout, "[INFO] ", log.LstdFlags)
-	errLogger  = log.New(os.Stdout, "[ERROR] ", log.LstdFlags)
+	errLogger  = log.New(os.Stderr, "[ERROR] ", log.LstdFlags)
 )
