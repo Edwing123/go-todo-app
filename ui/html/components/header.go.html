@@ -4,10 +4,12 @@
 
     {{/* This is used in order to send a POST request to logout the current
     authenticated user. */}}
+    {{if .IsAuthorized}}
     <form action="/auth/logout" class="logout-form" method="post">
         <button class="logout-form__button">
             <img src="/icons/logout.svg" alt="logout icon" class="logout-form__icon" />
         </button>
     </form>
+    {{end}}
 </header>
 {{end}}
