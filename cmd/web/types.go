@@ -16,6 +16,7 @@ type application struct {
 // the viewData struct holds per-view data, in order words,
 // data that will be used in the app views.
 type viewData struct {
+	Year            int
 	IsAuthenticated bool
 	CSRFToken       string
 }
