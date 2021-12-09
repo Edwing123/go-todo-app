@@ -30,7 +30,6 @@ func main() {
 
 	// Setup application dependencies.
 	app := &application{
-		db:         db,
 		templates:  templates,
 		infoLogger: infoLogger,
 		errLogger:  errLogger,
