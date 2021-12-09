@@ -36,6 +36,10 @@ func (app *application) getRouter() http.Handler {
 
 	router.Post("/auth/logout", dynamicMiddlewares.ThenFunc(app.logoutUser))
 
+	// Static assets file server
+	fileServer := http.StripPrefix("/static", app.serveStaticFiles(http.FileServer(http.Dir("./ui/assets"))))
+	router.Get("/static/", fileServer)
+
 	return baseMiddlewares.Then(router)
 }
 
