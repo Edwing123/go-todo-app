@@ -8,6 +8,8 @@ design/
 # Development bash scripts
 *.sh
 
-
 # VSCode things
 .vscode/
+
+# Build output
+build/
