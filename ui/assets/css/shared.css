@@ -12,6 +12,7 @@
 
 :root {
     font-family: "Manrope", sans-serif;
+    line-height: var(--line-md);
 }
 
 body {
