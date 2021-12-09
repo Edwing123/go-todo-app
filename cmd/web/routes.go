@@ -4,28 +4,39 @@ import (
 	"net/http"
 
 	"github.com/bmizerany/pat"
+	"github.com/justinas/alice"
 )
 
 // Returns the router for the server.
 func (app *application) getRouter() http.Handler {
+	// The base middlewares chain includes:
+	// - Panic recovery
+	// - Request logging
+	// - Addition of secure headers to response
+	baseMiddlewares := alice.New(app.recoverPanic, app.logRequest, addSecureHeaders)
+
+	// The dynamic middlewares chain includes:
+	// - CSRF token provider/handler
+	dynamicMiddlewares := alice.New(noSurf)
+
 	router := pat.New()
 
 	// Register app handlers
-	router.Get("/", http.HandlerFunc(app.home))
+	router.Get("/", dynamicMiddlewares.ThenFunc(app.home))
 
-	router.Get("/register", http.HandlerFunc(app.registerForm))
-	router.Post("/auth/register", http.HandlerFunc(app.registerUser))
+	router.Get("/register", dynamicMiddlewares.ThenFunc(app.registerForm))
+	router.Post("/auth/register", dynamicMiddlewares.ThenFunc(app.registerUser))
 
-	router.Get("/login", http.HandlerFunc(app.loginForm))
-	router.Get("/auth/login", http.HandlerFunc(app.loginUser))
+	router.Get("/login", dynamicMiddlewares.ThenFunc(app.loginForm))
+	router.Get("/auth/login", dynamicMiddlewares.ThenFunc(app.loginUser))
 
-	router.Get("/todos/list", http.HandlerFunc(app.todosManager))
-	router.Get("/todos/create", http.HandlerFunc(app.createTodoForm))
-	router.Post("/todos/create", http.HandlerFunc(app.createTodo))
+	router.Get("/todos/list", dynamicMiddlewares.ThenFunc(app.todosManager))
+	router.Get("/todos/create", dynamicMiddlewares.ThenFunc(app.createTodoForm))
+	router.Post("/todos/create", dynamicMiddlewares.ThenFunc(app.createTodo))
 
-	router.Post("/auth/logout", http.HandlerFunc(app.logoutUser))
+	router.Post("/auth/logout", dynamicMiddlewares.ThenFunc(app.logoutUser))
 
-	return router
+	return baseMiddlewares.Then(router)
 }
 
 // Display the home page.
