@@ -1,7 +1,6 @@
 package main
 
 import (
-	"database/sql"
 	"html/template"
 	"log"
 )
@@ -9,7 +8,6 @@ import (
 // The application struct hold the shared dependencies
 // that will be used across the handlers and middlewares.
 type application struct {
-	db         *sql.DB
 	templates  map[string]*template.Template
 	infoLogger *log.Logger
 	errLogger  *log.Logger
