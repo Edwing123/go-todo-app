@@ -28,7 +28,7 @@ func (app *application) getRouter() http.Handler {
 	router.Post("/auth/register", dynamicMiddlewares.ThenFunc(app.registerUser))
 
 	router.Get("/login", dynamicMiddlewares.ThenFunc(app.loginForm))
-	router.Get("/auth/login", dynamicMiddlewares.ThenFunc(app.loginUser))
+	router.Post("/auth/login", dynamicMiddlewares.ThenFunc(app.loginUser))
 
 	router.Get("/todos/list", dynamicMiddlewares.ThenFunc(app.todosManager))
 	router.Get("/todos/create", dynamicMiddlewares.ThenFunc(app.createTodoForm))
