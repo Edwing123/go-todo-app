@@ -26,7 +26,7 @@ func (app *application) render(w http.ResponseWriter, r *http.Request, name stri
 	// to the response body directly, first write to a buffer.
 	buffer := new(bytes.Buffer)
 
-	err := ts.ExecuteTemplate(buffer, name, app.addDefaults(data, r))
+	err := ts.ExecuteTemplate(buffer, name+".go.html", app.addDefaults(data, r))
 
 	// Check for any error while executing the template.
 	if err != nil {
