@@ -1,0 +1,21 @@
+.footer {
+    margin-bottom: var(--size-8);
+}
+
+.icons-row {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: var(--size-9);
+}
+
+.icons-row__icon {
+    width: 60px;
+    color: var(--purple);
+}
+
+.footer__text {
+    font-weight: var(--font-bold);
+    text-align: center;
+    color: var(--purple);
+    font-size: var(--scale-0);
+}

@@ -16,6 +16,9 @@
             rel="stylesheet"
         />
 
+        {{/* Page specific styles */}}
+        {{block "styles" .}}{{end}}
+
         {{/* Page specific attributes */}}
         <title>TodoApp | {{block "title" .}}{{end}}</title>
         <meta name="description" content="{{block "description" .}}{{end}}" />
