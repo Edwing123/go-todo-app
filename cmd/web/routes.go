@@ -41,7 +41,7 @@ func (app *application) getRouter() http.Handler {
 
 // Display the home page.
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Display home page"))
+	app.render(w, r, "home", nil)
 }
 
 // Display the sign up form page.
