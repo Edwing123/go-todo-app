@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"runtime/debug"
+	"time"
 )
 
 func (app *application) render(w http.ResponseWriter, r *http.Request, name string, data *viewData) {
@@ -34,6 +35,16 @@ func (app *application) render(w http.ResponseWriter, r *http.Request, name stri
 	// If everything is fine write the rendered template
 	// to the response body.
 	buffer.WriteTo(w)
+}
+
+// Includes default data values to viewData struct fields.
+func (app *application) addDefaults(data *viewData) *viewData {
+	if data == nil {
+		data = &viewData{}
+	}
+
+	data.Year = time.Now().Year()
+	return data
 }
 
 // The serverError helper writes an error message and stack trace to the errLogger output,
