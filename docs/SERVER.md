@@ -9,7 +9,7 @@
 | /auth/register | Post   | registerUser   | Register user                 |
 | /login         | Get    | loginForm      | Display login form page       |
 | /auth/login    | Post   | loginUser      | Authenticate user             |
-| /todos         | Get    | todosManager   | Display todos manager page    |
+| /todos/list    | Get    | todosManager   | Display todos manager page    |
 | /todos/create  | Get    | createTodoForm | Display create todo form page |
 | /todos/create  | Post   | createTodo     | Create new todo               |
 | /auth/logout   | Post   | logoutUser     | Logout user                   |
