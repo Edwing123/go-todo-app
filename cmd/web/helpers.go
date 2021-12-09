@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"runtime/debug"
 	"time"
+
+	"github.com/justinas/nosurf"
 )
 
 func (app *application) render(w http.ResponseWriter, r *http.Request, name string, data *viewData) {
@@ -24,7 +26,7 @@ func (app *application) render(w http.ResponseWriter, r *http.Request, name stri
 	// to the response body directly, first write to a buffer.
 	buffer := new(bytes.Buffer)
 
-	err := ts.ExecuteTemplate(buffer, name, app.addDefaults(data))
+	err := ts.ExecuteTemplate(buffer, name, app.addDefaults(data, r))
 
 	// Check for any error while executing the template.
 	if err != nil {
@@ -38,12 +40,13 @@ func (app *application) render(w http.ResponseWriter, r *http.Request, name stri
 }
 
 // Includes default data values to viewData struct fields.
-func (app *application) addDefaults(data *viewData) *viewData {
+func (app *application) addDefaults(data *viewData, r *http.Request) *viewData {
 	if data == nil {
 		data = &viewData{}
 	}
 
 	data.Year = time.Now().Year()
+	data.CSRFToken = nosurf.Token(r)
 	return data
 }
 
