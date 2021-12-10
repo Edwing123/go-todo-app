@@ -50,7 +50,7 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 
 // Display the sign up form page.
 func (app *application) registerForm(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Display sign up form page"))
+	app.render(w, r, "register", nil)
 }
 
 // Process user registration request.
@@ -60,7 +60,7 @@ func (app *application) registerUser(w http.ResponseWriter, r *http.Request) {
 
 // Display the login in form page.
 func (app *application) loginForm(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Display login form page"))
+	app.render(w, r, "login", nil)
 }
 
 // Process user login request.

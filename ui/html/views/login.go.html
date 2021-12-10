@@ -1,0 +1,47 @@
+{{template "base" .}}
+
+{{define "title"}}Login{{end}}
+{{define "description"}}Login to start managing your todos{{end}}
+
+{{define "styles"}}
+<link rel="stylesheet" href="/static/css/pages/forms.css" />
+{{end}}
+
+{{define "content"}}
+<section class="content">
+    <p class="content__introduction">Login to manage your todos</p>
+
+    <form
+        action="/auth/login"
+        method="post"
+        class="form login-form"
+        autocomplete="off"
+    >
+        <input type="hidden" name="csrf_token" value="{{.CSRFToken}}" />
+
+        <div class="form__group">
+            <label for="username" class="form__label">Username</label>
+            <input
+                type="text"
+                name="username"
+                placeholder="Enter your username"
+                class="form__input"
+            />
+        </div>
+
+        <div class="form__group">
+            <label for="password" class="form__label">Password</label>
+            <input
+                type="password"
+                class="form__input"
+                name="password"
+                placeholder="Enter your password"
+            />
+        </div>
+
+        <div class="form__group form__group--with-button">
+            <input class="form__button" type="submit" value="Login" />
+        </div>
+    </form>
+</section>
+{{end}}

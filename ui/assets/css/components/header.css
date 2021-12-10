@@ -17,6 +17,11 @@
     font-size: var(--scale-2);
 }
 
+.header__title > a {
+    text-decoration: none;
+    color: inherit;
+}
+
 
 .logout-form {
     height: 75%;

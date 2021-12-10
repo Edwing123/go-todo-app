@@ -1,12 +1,13 @@
 .content {}
 
 .content__introduction {
-    width: 70%;
-    margin: 0 auto var(--size-14);
+    width: 60%;
+    margin: 0 auto var(--size-12);
 
     text-align: center;
     color: var(--white);
-    font-weight: var(--font-semibold);
+    font-weight: var(--font-medium);
+    font-size: var(--scale-1);
 }
 
 .actions-box__title {
