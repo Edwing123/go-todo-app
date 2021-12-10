@@ -10,6 +10,8 @@ import (
 func getConfigFlags() (*configFlags, error) {
 	addr := flag.String("addr", "", "Set server netowrk address")
 	dsn := flag.String("dsn", "", "Set database data source name")
+	tlsCertPath := flag.String("tlsCertPath", "", "Path to the TLS certificate file")
+	privKeyPath := flag.String("privKeyPath", "", "Path of the private key associated with the TLS certificate")
 	flag.Parse()
 
 	// Return an error if the flags values are empty
@@ -18,7 +20,9 @@ func getConfigFlags() (*configFlags, error) {
 	}
 
 	return &configFlags{
-		addr: *addr,
-		dsn:  *dsn,
+		addr:        *addr,
+		dsn:         *dsn,
+		tlsCertPath: *tlsCertPath,
+		privKeyPath: *privKeyPath,
 	}, nil
 }

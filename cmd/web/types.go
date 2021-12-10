@@ -23,6 +23,8 @@ type viewData struct {
 
 // Represents the configuration command-line flags
 type configFlags struct {
-	addr string // Server network address
-	dsn  string // Database data source name
+	addr        string // Server network address.
+	dsn         string // Database data source name.
+	tlsCertPath string // Path of the TLS certificate file.
+	privKeyPath string // Path of the private key associated with the TLS certificate.
 }
