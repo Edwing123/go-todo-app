@@ -55,5 +55,5 @@ func main() {
 
 	// Start server using tls certificate and private key.
 	infoLogger.Printf("Listening on %s\n", config.addr)
-	errLogger.Fatalln(server.ListenAndServeTLS("./tls/cert.pem", "./tls/key.pem"))
+	errLogger.Fatalln(server.ListenAndServeTLS(config.tlsCertPath, config.privKeyPath))
 }
