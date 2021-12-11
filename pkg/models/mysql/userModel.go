@@ -50,3 +50,35 @@ func (um *UserModel) Insert(username string, password string) error {
 
 	return nil
 }
+
+// Authenticate user by its username and password,
+// if the credentials are fine, then return the id
+// of the user, otherwise return with an error.
+func (um *UserModel) Authenticate(username string, password string) (int, error) {
+	var id int
+	var hashed_password []byte
+
+	err := um.DB.QueryRow(selectUserForAuth, username).Scan(&id, &hashed_password)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return 0, models.ErrInvalidCredentials
+		}
+
+		return 0, err
+	}
+
+	// Compare the user password and the hashed password from
+	// the database, if they do not match return credentials error.
+	err = bcrypt.CompareHashAndPassword(hashed_password, []byte(password))
+	if err != nil {
+		if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
+			return 0, models.ErrInvalidCredentials
+		}
+
+		return 0, err
+	}
+
+	// Return the user id and a nil error if
+	// the provided credentials are correct.
+	return id, nil
+}
