@@ -80,3 +80,7 @@
 .todo__button--delete {
     background-color: var(--red-600);
 }
+
+.todo__button:is(:active, :focus-visible) {
+    outline: none;
+}
