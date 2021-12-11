@@ -83,7 +83,7 @@ func (app *application) registerUser(w http.ResponseWriter, r *http.Request) {
 
 	// Insert user, and check for any errors
 	// regarding duplicated usernames.
-	err = app.userModel.Insert(form.Get("username"), form.Get("username"))
+	err = app.userModel.Insert(form.Get("username"), form.Get("password"))
 	if err != nil {
 		if errors.Is(err, models.ErrDuplicatedUsername) {
 			form.Errors.Add("username", "This username is already taken")
@@ -103,12 +103,50 @@ func (app *application) registerUser(w http.ResponseWriter, r *http.Request) {
 
 // Display the login in form page.
 func (app *application) loginForm(w http.ResponseWriter, r *http.Request) {
-	app.render(w, r, "login", nil)
+	app.render(w, r, "login", &viewData{Form: forms.New(nil)})
 }
 
 // Process user login request.
 func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Authenticate user"))
+	err := r.ParseForm()
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	form := forms.New(r.PostForm)
+	form.Required("username", "password")
+	form.NoWhiteSpace("username")
+
+	// Form validation errors.
+	if !form.IsValid() {
+		app.render(w, r, "login", &viewData{
+			Form: form,
+		})
+
+		return
+	}
+
+	// Credentials validation.
+	id, err := app.userModel.Authenticate(form.Get("username"), form.Get("password"))
+	if err != nil {
+		if errors.Is(err, models.ErrInvalidCredentials) {
+			form.Errors.Add("generic", "Your username or password is incorrect")
+			app.render(w, r, "login", &viewData{
+				Form: form,
+			})
+
+			return
+		}
+
+		app.serverError(w, err)
+		return
+	}
+
+	// Sucessfully login.
+	// Add the loged-in user id to the session data.
+	app.sessionManager.Put(r.Context(), "userID", id)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 // Display todos list page.
