@@ -1,0 +1,44 @@
+{{template "base" .}}
+
+{{define "title"}}Your todos{{end}}
+{{define "robots"}}
+<meta name="robots" content="noindex,nofollow" />
+{{end}}
+
+{{define "styles"}}
+<link rel="stylesheet" href="/static/css/pages/todos.css" />
+{{end}}
+
+
+{{define "content"}}
+<section class="content">
+    <div class="create-todo-box">
+        <a href="/todos/create" class="create-todo-button">Create A Todo</a>
+    </div>
+
+    {{/* Show only if the user has 0 todos */}}
+    <section class="message-box">
+        <h2 class="message-box__title">You got 0 todos ^.^</h2>
+        <svg class="message-box__icon" fill="none" aria-hidden="true" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+    </section>
+
+    {{/* Show if there's more than 0 todos */}}
+    <section class="todos-list">
+        <article class="todos-item">
+            <h2 class="todo__title">Learn Go</h2>
+            <div class="todo__actions">
+                <form action="/todos/complete" method="post" class="todo__actions-form">
+                    <input type="hidden" name="csrf_token" value="{{.CSRFToken}}" />
+                    <input type="hidden" name="todo_id" value="include-todo-id" />
+                    <input type="submit" class="todo__button todo__button--complete" value="Mask as complete" />
+                </form>
+                <form action="/todos/delete" method="post" class="todo__actions-form">
+                    <input type="hidden" name="csrf_token" value="{{.CSRFToken}}" />
+                    <input type="hidden" name="todo_id" value="include-todo-id" />
+                    <input type="submit" class="todo__button todo__button--delete" value="Delete" />
+                </form>
+            </div>
+        </article>
+    </section>
+</section>
+{{end}}
