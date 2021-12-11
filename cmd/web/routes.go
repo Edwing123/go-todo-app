@@ -171,5 +171,6 @@ func (app *application) createTodo(w http.ResponseWriter, r *http.Request) {
 
 // Process user logout request.
 func (app *application) logoutUser(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Logout user"))
+	app.sessionManager.Remove(r.Context(), "userID")
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
