@@ -3,14 +3,17 @@ package main
 import (
 	"html/template"
 	"log"
+
+	"github.com/alexedwards/scs/v2"
 )
 
 // The application struct hold the shared dependencies
 // that will be used across the handlers and middlewares.
 type application struct {
-	templates  map[string]*template.Template
-	infoLogger *log.Logger
-	errLogger  *log.Logger
+	templates      map[string]*template.Template
+	infoLogger     *log.Logger
+	errLogger      *log.Logger
+	sessionManager *scs.SessionManager
 }
 
 // the viewData struct holds per-view data, in order words,
