@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/Edwing123/todo-app/pkg/models/mysql"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -34,6 +35,7 @@ func main() {
 		infoLogger:     infoLogger,
 		errLogger:      errLogger,
 		sessionManager: createSessionManager(db),
+		userModel:      &mysql.UserModel{DB: db},
 	}
 
 	// TSL config for the server.
