@@ -3,6 +3,7 @@ module github.com/Edwing123/todo-app
 go 1.17
 
 require (
+	github.com/alexedwards/scs/mysqlstore v0.0.0-20211203064041-370cc303b69f // indirect
 	github.com/alexedwards/scs/v2 v2.5.0 // indirect
 	github.com/bmizerany/pat v0.0.0-20210406213842-e4b6760bdd6f // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
