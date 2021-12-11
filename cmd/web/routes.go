@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 
+	"github.com/Edwing123/todo-app/pkg/forms"
 	"github.com/bmizerany/pat"
 	"github.com/justinas/alice"
 )
@@ -51,12 +52,33 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 
 // Display the sign up form page.
 func (app *application) registerForm(w http.ResponseWriter, r *http.Request) {
-	app.render(w, r, "register", nil)
+	app.render(w, r, "register", &viewData{
+		Form: forms.New(nil),
+	})
 }
 
 // Process user registration request.
 func (app *application) registerUser(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Register user"))
+	err := r.ParseForm()
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	form := forms.New(r.PostForm)
+	form.Required("username", "password")
+	form.NoWhiteSpace("username")
+	form.MinLength("password", 8)
+
+	if !form.IsValid() {
+		app.render(w, r, "register", &viewData{
+			Form: form,
+		})
+
+		return
+	}
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 // Display the login in form page.
