@@ -10,6 +10,12 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+type contextKey string
+
+var (
+	contextKeyIsUserAuthenticated = contextKey("IsUserAuthenticated")
+)
+
 // Create and configure session manager.
 func createSessionManager(db *sql.DB) *scs.SessionManager {
 	sessionManager := scs.New()

@@ -1,9 +1,12 @@
 package main
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"net/http"
 
+	"github.com/Edwing123/todo-app/pkg/models"
 	"github.com/justinas/nosurf"
 )
 
@@ -51,4 +54,34 @@ func noSurf(next http.Handler) http.Handler {
 	})
 
 	return CSRFHandler
+}
+
+// TODO: think about a good description :|
+func (app *application) verifyUserAuth(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Check for the existance of the userID key.
+		if !app.sessionManager.Exists(r.Context(), "userID") {
+			next.ServeHTTP(w, r)
+			return
+		}
+
+		// Check if the user with that id exists.
+		_, err := app.userModel.GetById(app.sessionManager.GetInt(r.Context(), "userID"))
+		if err != nil {
+			if errors.Is(err, models.ErrNoRecords) {
+				app.sessionManager.Remove(r.Context(), "userID")
+				next.ServeHTTP(w, r)
+				return
+			}
+
+			app.serverError(w, err)
+			return
+		}
+
+		// Add key to context values.
+		ctx := context.WithValue(r.Context(), contextKeyIsUserAuthenticated, true)
+
+		// Call next with a new request that contains the next context.
+		next.ServeHTTP(w, r.WithContext(ctx))
+	})
 }
