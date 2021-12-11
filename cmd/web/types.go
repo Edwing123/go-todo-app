@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"log"
 
+	"github.com/Edwing123/todo-app/pkg/forms"
 	"github.com/alexedwards/scs/v2"
 )
 
@@ -22,6 +23,7 @@ type viewData struct {
 	Year            int
 	IsAuthenticated bool
 	CSRFToken       string
+	Form            *forms.Form
 }
 
 // Represents the configuration command-line flags
