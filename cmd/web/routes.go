@@ -71,7 +71,7 @@ func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
 
 // Display todos list page.
 func (app *application) todosManager(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Display todos manager page"))
+	app.render(w, r, "todos", nil)
 }
 
 // Display create todo page.
