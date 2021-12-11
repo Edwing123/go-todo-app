@@ -1,9 +1,11 @@
 package main
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/Edwing123/todo-app/pkg/forms"
+	"github.com/Edwing123/todo-app/pkg/models"
 	"github.com/bmizerany/pat"
 	"github.com/justinas/alice"
 )
@@ -68,8 +70,9 @@ func (app *application) registerUser(w http.ResponseWriter, r *http.Request) {
 	form := forms.New(r.PostForm)
 	form.Required("username", "password")
 	form.NoWhiteSpace("username")
-	form.MinLength("password", 8)
+	form.MinLength("password", 10)
 
+	// Re-render form if there's an error.
 	if !form.IsValid() {
 		app.render(w, r, "register", &viewData{
 			Form: form,
@@ -78,7 +81,24 @@ func (app *application) registerUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+	// Insert user, and check for any errors
+	// regarding duplicated usernames.
+	err = app.userModel.Insert(form.Get("username"), form.Get("username"))
+	if err != nil {
+		if errors.Is(err, models.ErrDuplicatedUsername) {
+			form.Errors.Add("username", "This username is already taken")
+			app.render(w, r, "register", &viewData{
+				Form: form,
+			})
+
+			return
+		}
+
+		app.serverError(w, err)
+		return
+	}
+
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
 
 // Display the login in form page.
