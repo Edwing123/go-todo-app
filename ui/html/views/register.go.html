@@ -11,6 +11,7 @@
 <section class="content">
     <p class="content__introduction">Signup to start creating your todos</p>
 
+    {{with .Form}}
     <form
         action="/auth/register"
         method="post"
@@ -26,7 +27,11 @@
                 name="username"
                 placeholder="Enter a username"
                 class="form__input"
+                value="{{.Get "username"}}"
             />
+            {{with .Errors.Get "username"}}
+            <p class="form__error">{{.}}</p>
+            {{end}}
         </div>
 
         <div class="form__group">
@@ -37,11 +42,15 @@
                 name="password"
                 placeholder="Enter a password"
             />
+            {{with .Errors.Get "password"}}
+            <p class="form__error">{{.}}</p>
+            {{end}}
         </div>
 
         <div class="form__group form__group--with-button">
             <input class="form__button" type="submit" value="Signup" />
         </div>
     </form>
+    {{end}}
 </section>
 {{end}}
