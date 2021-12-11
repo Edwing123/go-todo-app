@@ -23,7 +23,7 @@ func createSessionManager(db *sql.DB) *scs.SessionManager {
 	// Setting some field to change session manager
 	// behavior, these settings are subjected to change
 	// in the future.
-	sessionManager.Lifetime = time.Minute * 1
+	sessionManager.Lifetime = time.Hour
 	sessionManager.Cookie.SameSite = http.SameSiteLaxMode
 	sessionManager.Cookie.HttpOnly = true
 	sessionManager.Cookie.Secure = true
