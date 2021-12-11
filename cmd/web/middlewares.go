@@ -85,3 +85,17 @@ func (app *application) verifyUserAuth(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
+
+func (app *application) requireAuthentication(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Redirect to login page if it's not authenticated.
+		if !app.IsAuthenticated(r) {
+			http.Redirect(w, r, "/login", http.StatusSeeOther)
+			return
+		}
+
+		// Not cached protected pages.
+		w.Header().Add("Cache-Control", "no-store")
+		next.ServeHTTP(w, r)
+	})
+}
