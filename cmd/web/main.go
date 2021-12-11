@@ -30,9 +30,10 @@ func main() {
 
 	// Setup application dependencies.
 	app := &application{
-		templates:  templates,
-		infoLogger: infoLogger,
-		errLogger:  errLogger,
+		templates:      templates,
+		infoLogger:     infoLogger,
+		errLogger:      errLogger,
+		sessionManager: createSessionManager(db),
 	}
 
 	// TSL config for the server.
