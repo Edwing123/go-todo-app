@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/Edwing123/todo-app/pkg/forms"
+	"github.com/Edwing123/todo-app/pkg/models/mysql"
 	"github.com/alexedwards/scs/v2"
 )
 
@@ -15,6 +16,7 @@ type application struct {
 	infoLogger     *log.Logger
 	errLogger      *log.Logger
 	sessionManager *scs.SessionManager
+	userModel      *mysql.UserModel
 }
 
 // the viewData struct holds per-view data, in order words,
