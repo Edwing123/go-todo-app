@@ -70,3 +70,14 @@
 .form__input:is(:focus-visible, :active) {
     outline: none;
 }
+
+.form__input--error {
+    outline: var(--size-px) solid var(--red);
+}
+
+.form__error {
+    display: inline-block;
+    margin: var(--size-1) 0 0;
+
+    color: var(--red);
+}
