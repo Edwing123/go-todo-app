@@ -82,3 +82,18 @@ func (um *UserModel) Authenticate(username string, password string) (int, error)
 	// the provided credentials are correct.
 	return id, nil
 }
+
+func (um *UserModel) GetById(id int) (*models.User, error) {
+	user := &models.User{}
+
+	err := um.DB.QueryRow(selectUserById, id).Scan(&user.Id, &user.Username)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, models.ErrNoRecords
+		}
+
+		return nil, err
+	}
+
+	return user, nil
+}
