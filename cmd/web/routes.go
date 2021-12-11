@@ -21,7 +21,8 @@ func (app *application) getRouter() http.Handler {
 	// The dynamic middlewares chain includes:
 	// - Session manager handler to load and save session data
 	// - CSRF token provider/handler
-	dynamicMiddlewares := alice.New(app.sessionManager.LoadAndSave, noSurf)
+	// - Sets auth status of the user to request context.
+	dynamicMiddlewares := alice.New(app.sessionManager.LoadAndSave, noSurf, app.verifyUserAuth)
 
 	router := pat.New()
 
