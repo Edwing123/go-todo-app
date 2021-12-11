@@ -24,6 +24,10 @@ func (app *application) getRouter() http.Handler {
 	// - Sets auth status of the user to request context.
 	dynamicMiddlewares := alice.New(app.sessionManager.LoadAndSave, noSurf, app.verifyUserAuth)
 
+	// This middleware extends the dynamic one, plus it includes a middlware
+	// to only allow access to authenticated users.
+	dynamicwithRequireAuth := dynamicMiddlewares.Append(app.requireAuthentication)
+
 	router := pat.New()
 
 	// Register app handlers
@@ -35,11 +39,11 @@ func (app *application) getRouter() http.Handler {
 	router.Get("/login", dynamicMiddlewares.ThenFunc(app.loginForm))
 	router.Post("/auth/login", dynamicMiddlewares.ThenFunc(app.loginUser))
 
-	router.Get("/todos/list", dynamicMiddlewares.ThenFunc(app.todosManager))
-	router.Get("/todos/create", dynamicMiddlewares.ThenFunc(app.createTodoForm))
-	router.Post("/todos/create", dynamicMiddlewares.ThenFunc(app.createTodo))
+	router.Get("/todos/list", dynamicwithRequireAuth.ThenFunc(app.todosManager))
+	router.Get("/todos/create", dynamicwithRequireAuth.ThenFunc(app.createTodoForm))
+	router.Post("/todos/create", dynamicwithRequireAuth.ThenFunc(app.createTodo))
 
-	router.Post("/auth/logout", dynamicMiddlewares.ThenFunc(app.logoutUser))
+	router.Post("/auth/logout", dynamicwithRequireAuth.ThenFunc(app.logoutUser))
 
 	// Static assets file server
 	fileServer := http.StripPrefix("/static", app.serveStaticFiles(http.FileServer(http.Dir("./ui/assets"))))
