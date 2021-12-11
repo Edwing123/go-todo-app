@@ -17,31 +17,47 @@
         class="form login-form"
         autocomplete="off"
     >
+
         <input type="hidden" name="csrf_token" value="{{.CSRFToken}}" />
+
+        {{with .Form}}
+
+        {{/* Generic message, like generic validation error */}}
+        {{with .Errors.Get "generic"}}
+        <p class="form__generic-error">{{.}}</p>
+        {{end}}
 
         <div class="form__group">
             <label for="username" class="form__label">Username</label>
             <input
                 type="text"
                 name="username"
+                value="{{.Get "username"}}"
                 placeholder="Enter your username"
-                class="form__input"
+                class="form__input {{if .Errors.Get "username"}}form__input--error{{end}}"
             />
+            {{with .Errors.Get "username"}}
+            <p class="form__error">{{.}}</p>
+            {{end}}
         </div>
 
         <div class="form__group">
             <label for="password" class="form__label">Password</label>
             <input
                 type="password"
-                class="form__input"
+                class="form__input {{if .Errors.Get "password"}}form__input--error{{end}}"
                 name="password"
                 placeholder="Enter your password"
             />
+            {{with .Errors.Get "password"}}
+            <p class="form__error">{{.}}</p>
+            {{end}}
         </div>
 
         <div class="form__group form__group--with-button">
             <input class="form__button" type="submit" value="Login" />
         </div>
+        {{end}}
     </form>
 </section>
 {{end}}
