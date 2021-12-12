@@ -79,5 +79,18 @@
     display: inline-block;
     margin: var(--size-1) 0 0;
 
+    font-size: var(--scale-0);
     color: var(--red);
+}
+
+.form__generic-error {
+    padding: var(--size-2);
+    margin-bottom: var(--size-5);
+
+    border-radius: var(--radius-xs);
+    background-color: var(--red);
+    text-align: center;
+    color: var(--white);
+    font-weight: var(--font-semibold);
+    font-size: var(--scale-0);
 }

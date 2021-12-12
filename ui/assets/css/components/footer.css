@@ -4,12 +4,13 @@
 
 .icons-row {
     display: flex;
-    justify-content: space-evenly;
-    margin-bottom: var(--size-9);
+    justify-content: center;
+    margin-bottom: var(--size-6);
 }
 
 .icons-row__icon {
-    width: 60px;
+    margin: 0 var(--size-3);
+    width: 40px;
     color: var(--purple);
 }
 

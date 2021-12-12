@@ -45,6 +45,7 @@
     background-color: var(--black);
     border-radius: var(--radius-xs);
     border: none;
+    cursor: pointer;
 }
 
 .logout-form__button:is(:active, :focus-visible, :focus) {
