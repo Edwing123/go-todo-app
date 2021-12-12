@@ -8,4 +8,5 @@ const (
 	selectUserForAuth = `SELECT id, hashed_password FROM user
     WHERE username = ?;`
 	selectUserById = `SELECT id, username FROM user WHERE id = ?;`
+	selectAllTodos = "SELECT * FROM todo;"
 )
