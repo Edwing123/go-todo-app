@@ -48,6 +48,18 @@ func (app *application) addDefaults(data *viewData, r *http.Request) *viewData {
 	data.Year = time.Now().Year()
 	data.CSRFToken = nosurf.Token(r)
 	data.IsAuthenticated = app.isAuthenticated(r)
+
+	// Only add user data if the user is authenticated.
+	if data.IsAuthenticated {
+		user, err := app.userModel.GetById(app.sessionManager.GetInt(r.Context(), "userID"))
+		if err != nil {
+			// Whoops!!
+			app.errLogger.Println(err)
+		} else {
+			data.User = user
+		}
+	}
+
 	return data
 }
 
