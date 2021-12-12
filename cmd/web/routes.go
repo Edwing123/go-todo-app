@@ -136,7 +136,7 @@ func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
 	id, err := app.userModel.Authenticate(form.Get("username"), form.Get("password"))
 	if err != nil {
 		if errors.Is(err, models.ErrInvalidCredentials) {
-			form.Errors.Add("generic", "Your username or password is incorrect")
+			form.Errors.Add("generic", "Username or password is incorrect")
 			app.render(w, r, "login", &viewData{
 				Form: form,
 			})
