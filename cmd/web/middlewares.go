@@ -89,7 +89,7 @@ func (app *application) verifyUserAuth(next http.Handler) http.Handler {
 func (app *application) requireAuthentication(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Redirect to login page if it's not authenticated.
-		if !app.IsAuthenticated(r) {
+		if !app.isAuthenticated(r) {
 			http.Redirect(w, r, "/login", http.StatusSeeOther)
 			return
 		}

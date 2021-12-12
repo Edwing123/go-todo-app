@@ -47,14 +47,14 @@ func (app *application) addDefaults(data *viewData, r *http.Request) *viewData {
 
 	data.Year = time.Now().Year()
 	data.CSRFToken = nosurf.Token(r)
-	data.IsAuthenticated = app.IsAuthenticated(r)
+	data.IsAuthenticated = app.isAuthenticated(r)
 	return data
 }
 
 // Gets the context value with key contextKeyIsUserAuthenticated,
 // tries to cast it to a boolean, if the casting fails, return false,
 // otherwise return the casted value (a boolean value).
-func (app *application) IsAuthenticated(r *http.Request) bool {
+func (app *application) isAuthenticated(r *http.Request) bool {
 	value, ok := r.Context().Value(contextKeyIsUserAuthenticated).(bool)
 	if !ok {
 		return false
