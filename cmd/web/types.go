@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/Edwing123/todo-app/pkg/forms"
+	"github.com/Edwing123/todo-app/pkg/models"
 	"github.com/Edwing123/todo-app/pkg/models/mysql"
 	"github.com/alexedwards/scs/v2"
 )
@@ -26,6 +27,7 @@ type viewData struct {
 	IsAuthenticated bool
 	CSRFToken       string
 	Form            *forms.Form
+	User            *models.User
 }
 
 // Represents the configuration command-line flags
