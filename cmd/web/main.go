@@ -36,6 +36,7 @@ func main() {
 		errLogger:      errLogger,
 		sessionManager: createSessionManager(db),
 		userModel:      &mysql.UserModel{DB: db},
+		todoModel:      &mysql.TodoModel{DB: db},
 	}
 
 	// TSL config for the server.

@@ -156,7 +156,14 @@ func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
 
 // Display todos list page.
 func (app *application) todosManager(w http.ResponseWriter, r *http.Request) {
-	app.render(w, r, "todos", nil)
+	todos, err := app.todoModel.GetAll()
+	if err != nil {
+		app.serverError(w, err)
+	}
+
+	app.render(w, r, "todos", &viewData{
+		Todos: todos,
+	})
 }
 
 // Display create todo page.

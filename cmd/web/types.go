@@ -18,6 +18,7 @@ type application struct {
 	errLogger      *log.Logger
 	sessionManager *scs.SessionManager
 	userModel      *mysql.UserModel
+	todoModel      *mysql.TodoModel
 }
 
 // the viewData struct holds per-view data, in order words,
@@ -28,6 +29,7 @@ type viewData struct {
 	CSRFToken       string
 	Form            *forms.Form
 	User            *models.User
+	Todos           []*models.Todo
 }
 
 // Represents the configuration command-line flags
