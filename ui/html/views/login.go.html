@@ -34,9 +34,11 @@
             <input
                 type="text"
                 name="username"
+                id="username"
                 value="{{.Get "username"}}"
                 placeholder="Enter your username"
                 class="form__input {{if .Errors.Get "username"}}form__input--error{{end}}"
+                required
             />
             {{with .Errors.Get "username"}}
             <p class="form__error">{{.}}</p>
@@ -49,7 +51,9 @@
                 type="password"
                 class="form__input {{if .Errors.Get "password"}}form__input--error{{end}}"
                 name="password"
+                id="password"
                 placeholder="Enter your password"
+                required
             />
             {{with .Errors.Get "password"}}
             <p class="form__error">{{.}}</p>

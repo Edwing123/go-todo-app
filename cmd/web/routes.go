@@ -168,7 +168,9 @@ func (app *application) todosManager(w http.ResponseWriter, r *http.Request) {
 
 // Display create todo page.
 func (app *application) createTodoForm(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Display create todo form page"))
+	app.render(w, r, "create", &viewData{
+		Form: forms.New(nil),
+	})
 }
 
 // Process create new todo request.
