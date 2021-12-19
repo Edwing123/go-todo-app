@@ -44,6 +44,7 @@ func (app *application) getRouter() http.Handler {
 	router.Get("/todos/list", dynamicwithRequireAuth.ThenFunc(app.todosManager))
 	router.Get("/todos/create", dynamicwithRequireAuth.ThenFunc(app.createTodoForm))
 	router.Post("/todos/create", dynamicwithRequireAuth.ThenFunc(app.createTodo))
+	router.Post("/todos/complete", dynamicwithRequireAuth.ThenFunc(app.completeTodo))
 
 	router.Post("/auth/logout", dynamicwithRequireAuth.ThenFunc(app.logoutUser))
 
@@ -241,6 +242,40 @@ func (app *application) createTodo(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Redirect to todos list page.
+	http.Redirect(w, r, "/todos/list", http.StatusSeeOther)
+}
+
+// Process the todo completion request.
+func (app *application) completeTodo(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	form := forms.New(r.PostForm)
+	form.Required("todo_id")
+	form.RequireTypeInt("todo_id")
+
+	if !form.IsValid() {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	userId := app.sessionManager.GetInt(r.Context(), "userID")
+	todoId, _ := strconv.Atoi(form.Get("todo_id"))
+
+	err = app.todoModel.MarkAsComplete(userId, todoId)
+	if err != nil {
+		if errors.Is(err, models.ErrNoRecords) {
+			app.clientError(w, http.StatusBadRequest)
+			return
+		}
+
+		app.serverError(w, err)
+		return
+	}
+
 	http.Redirect(w, r, "/todos/list", http.StatusSeeOther)
 }
 
