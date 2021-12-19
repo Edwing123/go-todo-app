@@ -61,7 +61,7 @@ func (tm *TodoModel) GetAll() ([]*models.Todo, error) {
 	for result.Next() {
 		todo := &models.Todo{}
 
-		err := result.Scan(&todo.Id, &todo.Title, &todo.CreatedAt, &todo.Expires, &todo.Done)
+		err := result.Scan(&todo.Id, &todo.Title, &todo.Done, &todo.CreatedAt, &todo.Expires)
 		if err != nil {
 			return nil, err
 		}
