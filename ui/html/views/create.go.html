@@ -41,7 +41,7 @@
         <div class="form__group">
             <label class="form__label form__label--inline">Expires in:</label>
             {{with .Errors.Get "expires"}}
-            <p class="form__error">{{.}}</p>
+            <p class="form__error form__error--inline">{{.}}</p>
             {{end}}
 
             <div class="form__inline-inputs">

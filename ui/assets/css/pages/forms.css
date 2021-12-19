@@ -115,3 +115,8 @@
 .form__label--inline {
     margin-bottom: var(--size-2);
 }
+
+.form__error--inline {
+    display: block;
+    margin-bottom: var(--size-2);
+}
