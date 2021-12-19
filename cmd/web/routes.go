@@ -3,6 +3,8 @@ package main
 import (
 	"errors"
 	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/Edwing123/todo-app/pkg/forms"
 	"github.com/Edwing123/todo-app/pkg/models"
@@ -210,6 +212,36 @@ func (app *application) createTodo(w http.ResponseWriter, r *http.Request) {
 
 		return
 	}
+
+	// Get current logged-in user id.
+	userID := app.sessionManager.GetInt(r.Context(), "userID")
+
+	// Create creation time and expiry time.
+	days, _ := strconv.Atoi(form.Get("days"))
+	hours, _ := strconv.Atoi(form.Get("hours"))
+	minutes, _ := strconv.Atoi(form.Get("minutes"))
+
+	createdAt := time.Now().UTC()
+	expires := createdAt.AddDate(0, 0, days)
+	expires = expires.Add((time.Hour * time.Duration(hours)) + (time.Minute * time.Duration(minutes)))
+
+	// Create the todo struct with the data
+	// that will be inserted into the database.
+	todo := models.Todo{
+		Title:     form.Get("title"),
+		CreatedAt: createdAt,
+		Expires:   expires,
+	}
+
+	// Insert to and check for any errors.
+	err = app.todoModel.Insert(userID, todo)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	// Redirect to todos list page.
+	http.Redirect(w, r, "/todos/list", http.StatusSeeOther)
 }
 
 // Process user logout request.
