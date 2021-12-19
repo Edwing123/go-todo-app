@@ -40,6 +40,7 @@
 
 .todos-item {
     padding: var(--size-6) var(--size-5);
+    margin-bottom: var(--size-6);
 
     background-color: var(--semi-transparent-white-1);
     border-radius: var(--radius-xs);
