@@ -111,3 +111,7 @@
     text-align: center;
     font-size: var(--scale-00);
 }
+
+.form__label--inline {
+    margin-bottom: var(--size-2);
+}

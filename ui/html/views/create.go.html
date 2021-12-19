@@ -28,7 +28,7 @@
                 name="title"
                 id="title"
                 placeholder="Your todo title"
-                class="form__input {{if .Errors.Get "title"}}form__input--error{{end}}"
+                class="form__input {{if .Errors.Get "title"}}form__input--error animate__animated animate__headShake{{end}}"
                 value="{{.Get "title"}}"
                 required
             />
@@ -39,7 +39,7 @@
         </div>
 
         <div class="form__group">
-            <label class="form__label">Expires in:</label>
+            <label class="form__label form__label--inline">Expires in:</label>
             {{with .Errors.Get "expires"}}
             <p class="form__error">{{.}}</p>
             {{end}}
@@ -52,7 +52,7 @@
                         name="days"
                         id="days"
                         placeholder="Days"
-                        class="form__input {{if .Errors.Get "days"}}form__input--error{{end}}"
+                        class="form__input {{if .Errors.Get "days"}}form__input--error animate__animated animate__headShake{{end}}"
                         value="{{.Get "days"}}"
                         pattern="\d+"
                         title="A number"
@@ -68,7 +68,7 @@
                         name="hours"
                         id="hours"
                         placeholder="Hours"
-                        class="form__input {{if .Errors.Get "hours"}}form__input--error{{end}}"
+                        class="form__input {{if .Errors.Get "hours"}}form__input--error animate__animated animate__headShake{{end}}"
                         value="{{.Get "hours"}}"
                         pattern="\d+"
                         title="A number"
@@ -84,7 +84,7 @@
                         name="minutes"
                         id="minutes"
                         placeholder="Minutes"
-                        class="form__input {{if .Errors.Get "minutes"}}form__input--error{{end}}"
+                        class="form__input {{if .Errors.Get "minutes"}}form__input--error animate__animated animate__headShake{{end}}"
                         value="{{.Get "minutes"}}"
                         pattern="\d+"
                         title="A number"

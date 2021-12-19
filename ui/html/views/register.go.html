@@ -25,7 +25,7 @@
             <label for="username" class="form__label">Username</label>
             <input
                 type="text"
-                class="form__input {{if .Errors.Get "username"}}form__input--error{{end}}"
+                class="form__input {{if .Errors.Get "username"}}form__input--error animate__animated animate__headShake{{end}}"
                 name="username"
                 id="username"
                 placeholder="Enter a username"
@@ -41,7 +41,7 @@
             <label for="password" class="form__label">Password</label>
             <input
                 type="password"
-                class="form__input {{if .Errors.Get "password"}}form__input--error{{end}}"
+                class="form__input {{if .Errors.Get "password"}}form__input--error animate__animated animate__headShake{{end}}"
                 name="password"
                 id="password"
                 placeholder="Enter a password"

@@ -37,7 +37,7 @@
                 id="username"
                 value="{{.Get "username"}}"
                 placeholder="Enter your username"
-                class="form__input {{if .Errors.Get "username"}}form__input--error{{end}}"
+                class="form__input {{if .Errors.Get "username"}}form__input--error animate__animated animate__headShake{{end}}"
                 required
             />
             {{with .Errors.Get "username"}}
@@ -49,7 +49,7 @@
             <label for="password" class="form__label">Password</label>
             <input
                 type="password"
-                class="form__input {{if .Errors.Get "password"}}form__input--error{{end}}"
+                class="form__input {{if .Errors.Get "password"}}form__input--error animate__animated animate__headShake{{end}}"
                 name="password"
                 id="password"
                 placeholder="Enter your password"
