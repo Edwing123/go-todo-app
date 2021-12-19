@@ -175,7 +175,41 @@ func (app *application) createTodoForm(w http.ResponseWriter, r *http.Request) {
 
 // Process create new todo request.
 func (app *application) createTodo(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Create new todo"))
+	err := r.ParseForm()
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	form := forms.New(r.PostForm)
+	form.Required("title", "days", "hours", "minutes")
+	form.MaxLength("title", 255)
+	form.RequireTypeInt("days", "hours", "minutes")
+
+	if !form.IsValid() {
+		// Add an error "expires" if there's an error for the fields:
+		// - days
+		// - hours
+		// - minutes
+		shouldAddExpiresErr := false
+		for _, field := range []string{"days", "hours", "minutes"} {
+			hasErrors := len(form.Errors[field]) > 0
+			if hasErrors {
+				shouldAddExpiresErr = true
+				break
+			}
+		}
+
+		if shouldAddExpiresErr {
+			form.Errors.Add("expires", "Expiration should only contain numeric values")
+		}
+
+		app.render(w, r, "create", &viewData{
+			Form: form,
+		})
+
+		return
+	}
 }
 
 // Process user logout request.
