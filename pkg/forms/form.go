@@ -3,6 +3,7 @@ package forms
 import (
 	"fmt"
 	"net/url"
+	"strconv"
 	"strings"
 	"unicode"
 	"unicode/utf8"
@@ -57,6 +58,35 @@ func (f *Form) MinLength(field string, minLength int) {
 
 	if utf8.RuneCountInString(value) < minLength {
 		f.Errors.Add(field, fmt.Sprintf("This field is too short (minimum length is %d)", minLength))
+	}
+}
+
+// Checks whether the fields values are of type int,
+// this is done by trying to convert the value
+// of the field to an int using the Atoi function.
+func (f *Form) RequireTypeInt(fields ...string) {
+	for _, field := range fields {
+		value := f.Get(field)
+		if value == "" {
+			return
+		}
+
+		_, err := strconv.Atoi(value)
+		if err != nil {
+			f.Errors.Add(field, "Please enter a valid number")
+		}
+	}
+}
+
+// Ensures the field value has a maximum of maxLength characters.
+func (f *Form) MaxLength(field string, maxLength int) {
+	value := f.Get(field)
+	if value == "" {
+		return
+	}
+
+	if utf8.RuneCountInString(value) > maxLength {
+		f.Errors.Add(field, fmt.Sprintf("This field is too long (maximum length is %d)", maxLength))
 	}
 }
 
