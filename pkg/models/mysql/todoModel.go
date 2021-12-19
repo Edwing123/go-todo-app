@@ -46,12 +46,12 @@ func (tm *TodoModel) Insert(userId int, todo models.Todo) error {
 	return err
 }
 
-func (tm *TodoModel) GetAll() ([]*models.Todo, error) {
+func (tm *TodoModel) GetAll(userId int) ([]*models.Todo, error) {
 	// The slice of todos.
 	var todos []*models.Todo
 
 	// Query the database to get all todos.
-	result, err := tm.DB.Query(selectAllTodos)
+	result, err := tm.DB.Query(selectAllTodos, userId)
 	if err != nil {
 		return nil, err
 	}
@@ -104,6 +104,31 @@ func (tm *TodoModel) MarkAsComplete(userId, todoId int) error {
 
 	// If there exist a todo, set the done column to TRUE.
 	_, err = tx.Exec(updateTodoToDone, todoId)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	err = tx.Commit()
+	return err
+}
+
+func (tm *TodoModel) Delete(userId, todoId int) error {
+	tx, err := tm.DB.Begin()
+	if err != nil {
+		return err
+	}
+
+	// First try to delete the todo from the user_todo table
+	// using the user_id and todo_id.
+	_, err = tx.Exec(deleteUserTodo, userId, todoId)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	// Now delete the todo from the todo table.
+	_, err = tx.Exec(deleteTodo, todoId)
 	if err != nil {
 		tx.Rollback()
 		return err
