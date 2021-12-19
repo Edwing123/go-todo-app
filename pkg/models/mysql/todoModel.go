@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"database/sql"
+	"errors"
 
 	"github.com/Edwing123/todo-app/pkg/models"
 )
@@ -78,4 +79,36 @@ func (tm *TodoModel) GetAll() ([]*models.Todo, error) {
 	// If everything is fine, return the slice
 	// of todos and a nil error.
 	return todos, nil
+}
+
+func (tm *TodoModel) MarkAsComplete(userId, todoId int) error {
+	tx, err := tm.DB.Begin()
+	if err != nil {
+		return err
+	}
+
+	// Get the todo by its id and the id of the user.
+	_, err = tx.Exec(selectUserTodo, userId, todoId)
+	if err != nil {
+		tx.Rollback()
+
+		// If it doesn't exists, return a no record error.
+		if errors.Is(err, sql.ErrNoRows) {
+			return models.ErrNoRecords
+		}
+
+		//eye: Syntax errors or maybe the database is down, anyways, I'm not
+		//eye: handling those errors.
+		return err
+	}
+
+	// If there exist a todo, set the done column to TRUE.
+	_, err = tx.Exec(updateTodoToDone, todoId)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	err = tx.Commit()
+	return err
 }

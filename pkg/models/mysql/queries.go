@@ -11,4 +11,8 @@ const (
     WHERE username = ?;`
 	selectUserById = `SELECT id, username FROM user WHERE id = ?;`
 	selectAllTodos = "SELECT * FROM todo ORDER BY created_at desc;"
+	selectUserTodo = "SELECT todo_id FROM user_todo WHERE user_id = ? AND todo_id = ?;"
+
+	// Update queries
+	updateTodoToDone = "UPDATE todo SET done = TRUE WHERE id = ?;"
 )
