@@ -45,6 +45,7 @@ func (app *application) getRouter() http.Handler {
 	router.Get("/todos/create", dynamicwithRequireAuth.ThenFunc(app.createTodoForm))
 	router.Post("/todos/create", dynamicwithRequireAuth.ThenFunc(app.createTodo))
 	router.Post("/todos/complete", dynamicwithRequireAuth.ThenFunc(app.completeTodo))
+	router.Post("/todos/delete", dynamicwithRequireAuth.ThenFunc(app.deleteTodo))
 
 	router.Post("/auth/logout", dynamicwithRequireAuth.ThenFunc(app.logoutUser))
 
@@ -159,7 +160,8 @@ func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
 
 // Display todos list page.
 func (app *application) todosManager(w http.ResponseWriter, r *http.Request) {
-	todos, err := app.todoModel.GetAll()
+	userId := app.sessionManager.GetInt(r.Context(), "userID")
+	todos, err := app.todoModel.GetAll(userId)
 	if err != nil {
 		app.serverError(w, err)
 	}
@@ -266,6 +268,40 @@ func (app *application) completeTodo(w http.ResponseWriter, r *http.Request) {
 	todoId, _ := strconv.Atoi(form.Get("todo_id"))
 
 	err = app.todoModel.MarkAsComplete(userId, todoId)
+	if err != nil {
+		if errors.Is(err, models.ErrNoRecords) {
+			app.clientError(w, http.StatusBadRequest)
+			return
+		}
+
+		app.serverError(w, err)
+		return
+	}
+
+	http.Redirect(w, r, "/todos/list", http.StatusSeeOther)
+}
+
+// Process the todo deletion request.
+func (app *application) deleteTodo(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	form := forms.New(r.PostForm)
+	form.Required("todo_id")
+	form.RequireTypeInt("todo_id")
+
+	if !form.IsValid() {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	userId := app.sessionManager.GetInt(r.Context(), "userID")
+	todoId, _ := strconv.Atoi(form.Get("todo_id"))
+
+	err = app.todoModel.Delete(userId, todoId)
 	if err != nil {
 		if errors.Is(err, models.ErrNoRecords) {
 			app.clientError(w, http.StatusBadRequest)
