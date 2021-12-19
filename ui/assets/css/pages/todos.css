@@ -46,6 +46,7 @@
     border-radius: var(--radius-xs);
 }
 
+
 .todo__title {
     margin-bottom: var(--size-6);
 
@@ -54,8 +55,14 @@
     font-size: var(--scale-3);
 }
 
+.todo-item--done {
+    color: var(--color-grey-500);
+    text-decoration: line-through;
+}
+
 .todo__actions {
     display: flex;
+    justify-content: center;
     gap: var(--size-4);
 }
 

@@ -21,13 +21,15 @@
     {{range .Todos}}
     <section class="todos-list">
         <article class="todos-item">
-            <h2 class="todo__title">{{.Title}}</h2>
+            <h2 class="todo__title {{if .Done}}todo-item--done{{end}}">{{.Title}}</h2>
             <div class="todo__actions">
+                {{if not .Done}}
                 <form action="/todos/complete" method="post" class="todo__actions-form">
                     <input type="hidden" name="csrf_token" value="{{$CSRFToken}}" />
                     <input type="hidden" name="todo_id" value="{{.Id}}" />
                     <input type="submit" class="todo__button todo__button--complete" value="Mask as complete" />
                 </form>
+                {{end}}
                 <form action="/todos/delete" method="post" class="todo__actions-form">
                     <input type="hidden" name="csrf_token" value="{{$CSRFToken}}" />
                     <input type="hidden" name="todo_id" value="{{.Id}}" />
