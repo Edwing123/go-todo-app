@@ -153,6 +153,13 @@ func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Sucessfully login.
+	// Preventing Session Fixation by renewing the session token.
+	err = app.renewSessionToken(r)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
 	// Add the loged-in user id to the session data.
 	app.sessionManager.Put(r.Context(), "userID", id)
 	http.Redirect(w, r, "/", http.StatusSeeOther)
@@ -317,6 +324,12 @@ func (app *application) deleteTodo(w http.ResponseWriter, r *http.Request) {
 
 // Process user logout request.
 func (app *application) logoutUser(w http.ResponseWriter, r *http.Request) {
+	err := app.renewSessionToken(r)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
 	app.sessionManager.Remove(r.Context(), "userID")
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }

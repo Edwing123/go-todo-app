@@ -92,3 +92,13 @@ func (app *application) clientError(w http.ResponseWriter, status int) {
 func (app *application) notFound(w http.ResponseWriter, r *http.Request) {
 	http.NotFound(w, r)
 }
+
+func (app *application) renewSessionToken(r *http.Request) error {
+	// Preventing Session Fixation by renewing the session token.
+	err := app.sessionManager.RenewToken(r.Context())
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
