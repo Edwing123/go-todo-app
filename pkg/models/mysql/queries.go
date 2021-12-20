@@ -20,7 +20,8 @@ const (
     ON user_todo.user_id = user.id
     INNER JOIN todo
     ON user_todo.todo_id = todo.id
-    WHERE user.id = ?;
+    WHERE user.id = ?
+    ORDER BY created_at DESC;
     `
 	selectUserTodo = "SELECT todo_id FROM user_todo WHERE user_id = ? AND todo_id = ?;"
 
