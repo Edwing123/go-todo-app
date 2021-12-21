@@ -48,11 +48,34 @@
 
 
 .todo__title {
-    margin-bottom: var(--size-6);
+    margin-bottom: var(--size-5);
 
     text-align: center;
     color: var(--white);
     font-size: var(--scale-3);
+}
+
+.todo__dates {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: var(--size-4);
+}
+
+.todo__date {
+    display: flex;
+    padding: var(--size-2);
+
+    border-radius: var(--radius-xs);
+    color: var(--white);
+    background-color: var(--semi-transparent-white-1);
+    font-size: var(--scale-000);
+    margin-bottom: var(--size-5);
+}
+
+.todo__icon--clock {
+    width: var(--size-8);
+    margin-right: var(--size-2);
 }
 
 .todo-item--done {
