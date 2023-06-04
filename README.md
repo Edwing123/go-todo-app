@@ -13,9 +13,9 @@ Yeah, let's start simple.
 
 ## Design?
 
-For this particular task I'll be using Figma, yeah, Figma fucking rocks!
+For this particular task I'll be using Figma.
 
-Views to design:
+Pages to design:
 
 1. Home page
 2. Register page
